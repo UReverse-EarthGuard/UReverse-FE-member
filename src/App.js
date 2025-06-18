@@ -4,7 +4,6 @@ import Root from './Root';
 import Home from './pages/Home';
 import MainLayout from './layout/MainLayout';
 import NoAlarmLayout from './layout/NoAlarmLayout';
-import CommonLayout from './layout/CommonLayout';
 import LoginForm from './pages/auth/LoginForm';
 import SignupForm from './pages/auth/SignupForm';
 import ProductInfoForm from './pages/Sell/ProductInfoForm';
@@ -115,7 +114,7 @@ function App() {
       setAuth: ({ accessToken, role }) => setAuth({ accessToken, role }),
       resetAuth: () => setAuth({ accessToken: null, role: null }),
     });
-  }, []);
+  }, [auth]);
 
   return <RouterProvider router={router} />;
 }

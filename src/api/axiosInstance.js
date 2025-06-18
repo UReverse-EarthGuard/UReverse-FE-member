@@ -41,6 +41,7 @@ const processQueue = (error, token = null) => {
 // 요청 인터셉터: accessToken 자동 추가
 api.interceptors.request.use((config) => {
   const token = store?.getAccessToken();
+  console.log('[axios] accessToken:', token);
   if (token) {
     config.headers = config.headers || {};
     config.headers.Authorization = `Bearer ${token}`;
