@@ -22,7 +22,7 @@ export default function LoginForm() {
     const handleLogin = async () => {
         try {
             const { accessToken, role } = await login(email, password);
-             setAuth({ accessToken, role });
+            setAuth({ accessToken, role });
             getAuthStore().setAuth({ accessToken, role });
             navigate('/home');
         } catch (error) {
