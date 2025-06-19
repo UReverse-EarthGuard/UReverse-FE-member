@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import notificationIconImg from '../../assets/icon-notification-bell.png';
 import styles from './NotificationIcon.module.css';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
@@ -11,8 +11,16 @@ import { setupSSE } from '../../api/setupSSE';
 export default function NotificationIcon() {
   const [unreadCount, setUnreadCount] = useState(0);
   const { accessToken } = useRecoilValue(authState);
+  const auth = useRecoilValue(authState);
   const setAuth = useSetRecoilState(authState);
   const setUser = useSetRecoilState(userState);
+
+  const accessTokenRef = useRef(auth.accessToken); 
+
+ useEffect(() => {
+    accessTokenRef.current = auth.accessToken;
+  }, [auth.accessToken]);
+
 
   useEffect(() => {
     const fetchUnreadCount = async () => {
@@ -28,6 +36,7 @@ export default function NotificationIcon() {
     let reconnectTimer;
 
     const handleConnect = async () => {
+       const token = accessTokenRef.current;
       const userId = JSON.parse(atob(accessToken.split('.')[1])).sub;
 
       eventSource = connectSSE(
