@@ -5,6 +5,8 @@ import HoverEventButton from '../../component/button/HoverEventButton';
 
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
+import { authState } from '../../atoms/authState';
 
 import { login } from '../../api/auth';
 import { getAuthStore } from '../../api/axiosInstance';
@@ -13,12 +15,14 @@ export default function LoginForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [focusedInput, setFocusedInput] = useState(null);
+  const [, setAuth] = useRecoilState(authState);
 
     const navigate = useNavigate();
 
     const handleLogin = async () => {
         try {
             const { accessToken, role } = await login(email, password);
+             setAuth({ accessToken, role });
             getAuthStore().setAuth({ accessToken, role });
             navigate('/home');
         } catch (error) {
