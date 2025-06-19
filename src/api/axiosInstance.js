@@ -40,9 +40,16 @@ const processQueue = (error, token = null) => {
 
 // 요청 인터셉터: accessToken 자동 추가
 api.interceptors.request.use((config) => {
-  const token = store?.getAccessToken();
+  const token = store?.getAccessToken?.();
   // console.log('[axios] accessToken:', token);
-  if (token) {
+
+  // refreshToken 으로 accessToken 재발급 시 헤더 제거
+  if (config.url?.includes('/auth/refresh')) {
+    if (config.headers?.Authorization) {
+      console.log("헤더 제거함");
+      delete config.headers.Authorization;
+    }
+  } else if (token) {
     config.headers = config.headers || {};
     config.headers.Authorization = `Bearer ${token}`;
   }
@@ -83,7 +90,6 @@ api.interceptors.response.use(
       isRefreshing = true;
       try {
         const res = await api.get('/auth/refresh', {
-          baseURL: process.env.REACT_APP_BASE_URL,
           withCredentials: true,
         });
 
