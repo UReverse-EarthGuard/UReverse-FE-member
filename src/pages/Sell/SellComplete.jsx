@@ -8,7 +8,7 @@ export default function SellComplete() {
     const navigate = useNavigate();
 
     const finishOnclick = () => {
-        navigate('/');
+        navigate('/home');
     }
 
     return (
