@@ -110,11 +110,18 @@ function App() {
 
   useEffect(() => {
     setAuthStore({
-      getAccessToken: () => auth.accessToken,
-      setAuth: ({ accessToken, role }) => setAuth({ accessToken, role }),
-      resetAuth: () => setAuth({ accessToken: null, role: null }),
+      getAccessToken: () => {
+        const saved = JSON.parse(localStorage.getItem('recoil-persist'));
+        return saved?.authState?.accessToken || null;
+      },
+      setAuth: ({ accessToken, role }) => {
+        setAuth({ accessToken, role });
+      },
+      resetAuth: () => {
+        setAuth({ accessToken: null, role: null });
+      },
     });
-  }, [auth]);
+  }, []);
 
   return <RouterProvider router={router} />;
 }
