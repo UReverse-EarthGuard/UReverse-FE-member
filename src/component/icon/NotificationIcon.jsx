@@ -44,29 +44,9 @@ export default function NotificationIcon() {
         eventSource.onerror = async () => {
           eventSource.close();
 
-          try {
-            // accessToken 재발급 시도
-            const res = await api.get('/auth/refresh');
-            const { accessToken: newAccessToken, role } = res.data.response;
-
-            setAuth({ accessToken: newAccessToken, role });
-
-            reconnectTimer = setTimeout(() => {
-              setupSSE(); // 재연결
-            }, 1000); // 짧은 지연후 연결 재시도
-          } catch (err) {
-            console.error('refreshToken 만료, 로그인 페이지로 이동');
-            setAuth({ accessToken: null, role: null });
-            setUser({
-              userId: null,
-              name: '',
-              email: '',
-              phone: '',
-              role: '',
-              isLoggedIn: false,
-            });
-            navigate('/login');
-          }
+          reconnectTimer = setTimeout(() => {
+            setupSSE(); // 재연결
+          }, 1000); // 짧은 지연후 연결 재시도
         };
       } catch (err) {
         console.error('SSE 설정 중 에러 : ', err);
