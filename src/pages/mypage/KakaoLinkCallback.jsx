@@ -17,7 +17,7 @@ function KakaoLinkCallback() {
 
   const handleClose = () => {
     setShowModal(false);
-    navigate('/mypage'); // 모달 닫으면 마이페이지로 이동
+    navigate('/mypage/edit'); // 모달 닫으면 마이페이지로 이동
   };
 
   return (

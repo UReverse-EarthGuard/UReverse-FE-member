@@ -6,7 +6,7 @@
   height: 1200px;
   padding: 30px 40px;
   box-sizing: border-box;
- overflow-y: auto; 
+  overflow-y: auto;
 }
 
 .formBox {
@@ -51,14 +51,14 @@
 }
 
 .labelFocused {
-  color: #64C378;
+  color: #64c378;
 }
 
 .inputField {
   width: 100%;
   height: 56px;
   padding: 16px;
-  background-color: #1E1E1E;
+  background-color: #1e1e1e;
   color: #fff;
   border: 1px solid #444;
   border-radius: 12px;
@@ -69,7 +69,7 @@
 }
 
 .focused {
-  border: 2px solid #64C378;
+  border: 2px solid #64c378;
   box-shadow: 0 0 0 2px rgba(100, 195, 120, 0.4);
 }
 
@@ -86,8 +86,24 @@
 .pageTitle {
   font-size: 1.5rem;
   font-weight: 700;
-  color: #64C378;
+  color: #64c378;
   margin-bottom: 1.5rem;
   text-align: center;
 }
 
+.kakaoLinkedButton {
+  width: 100%;
+  padding: 14px 20px;
+  background-color: #2a2a2a;
+  color: #fff;
+  padding: 12px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 0.75rem;
+  cursor: not-allowed;
+}
+
+.kakaoLabel {
+  font-size: 14px;
+}
