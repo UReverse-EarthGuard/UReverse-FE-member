@@ -27,7 +27,14 @@ export default function SignupForm() {
   });
   const navigate = useNavigate();
 
-  // InfoModal 닫기 핸들러
+    // 이메일 인증 완료 시 query param으로 전달된 verified 상태 처리
+  useEffect(() => {
+    if (params.get('verified') === 'true') {
+      setIsEmailVerified(true);
+      setIsEmailAvailable(false); // 인증 완료되면 중복확인도 비활성화
+    }
+  }, [params]);
+
   const handleCloseModal = () => {
     setModalInfo({ show: false, title: '', message: '' });
   };
@@ -128,6 +135,15 @@ export default function SignupForm() {
     }
   };
 
+  const formatPhoneNumber = (value) => {
+    return value
+      .replace(/[^\d]/g, '')
+      .replace(/(\d{3})(\d{1,4})(\d{0,4})/, (_, a, b, c) => {
+        return b ? (c ? `${a}-${b}-${c}` : `${a}-${b}`) : a;
+      })
+      .slice(0, 13);
+  };
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.loginBox}>
@@ -163,15 +179,15 @@ export default function SignupForm() {
             <button
               className={styles.cta}
               onClick={handleEmailDuplicateCheck}
-              disabled={isEmailAvailable}
+              disabled={isEmailAvailable || isEmailVerified}
             >
               중복확인
             </button>
             <button
               className={styles.secondary}
               onClick={handleSendVerificationEmail}
-              disabled={!isEmailAvailable}
-            >
+               disabled={!form.email || !isEmailAvailable || isEmailVerified}
+               >
               인증 메일 전송
             </button>
           </div>
@@ -195,7 +211,10 @@ export default function SignupForm() {
             label="전화번호"
             value={form.phone}
             onChange={(e) =>
-              setForm((prev) => ({ ...prev, phone: e.target.value }))
+              setForm((prev) => ({
+                ...prev,
+                phone: formatPhoneNumber(e.target.value),
+              }))
             }
             onFocus={() => setFocusedInput('phone')}
             onBlur={() => setFocusedInput(null)}
@@ -205,7 +224,7 @@ export default function SignupForm() {
           <button
             className={styles.secondary}
             onClick={handleSignup}
-            disabled={!isEmailVerified}
+             disabled={!isEmailVerified}
           >
             가입하기
           </button>
