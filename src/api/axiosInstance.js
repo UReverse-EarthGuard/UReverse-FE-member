@@ -38,6 +38,12 @@ const processQueue = (error, token = null) => {
   failedQueue = [];
 };
 
+// 리프레쉬 요청용
+const refreshAxios = axios.create({
+  baseURL: process.env.REACT_APP_BASE_URL + '/api/v1',
+  withCredentials: true,
+});
+
 // 요청 인터셉터: accessToken 자동 추가
 api.interceptors.request.use((config) => {
   const token = store?.getAccessToken?.();
@@ -46,7 +52,6 @@ api.interceptors.request.use((config) => {
   // refreshToken 으로 accessToken 재발급 시 헤더 제거
   if (config.url?.includes('/auth/refresh')) {
     if (config.headers?.Authorization) {
-      console.log("헤더 제거함");
       delete config.headers.Authorization;
     }
   } else if (token) {
@@ -89,9 +94,7 @@ api.interceptors.response.use(
 
       isRefreshing = true;
       try {
-        const res = await api.get('/auth/refresh', {
-          withCredentials: true,
-        });
+        const res = await refreshAxios.get('/auth/refresh');
 
         const { accessToken, role } = res.data.response;
         store?.setAuth({ accessToken, role });
@@ -105,7 +108,9 @@ api.interceptors.response.use(
         processQueue(refreshError, null);
         // refreshToken 만료 시 로그인으로 보내기
         store?.resetAuth();
-        if (navigateToLogin) navigateToLogin('/login');
+        if (navigateToLogin){
+          navigateToLogin('/login');
+        } 
         return Promise.reject(refreshError);
       } finally {
         isRefreshing = false;

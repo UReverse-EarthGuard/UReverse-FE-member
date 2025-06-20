@@ -19,7 +19,6 @@ export default function MainHeader() {
   const handleLogout = async () => {
     try {
       await logout();
-      localStorage.removeItem('accessToken');
       setUser({ isLoggedIn: false });
       setAuth({ accessToken: null, role: null });
       navigate('/');
