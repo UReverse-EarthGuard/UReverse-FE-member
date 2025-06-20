@@ -22,6 +22,6 @@ export const setupSSE = async (setAuth, setUser) => {
     }));
   } catch (e) {
     console.error('SSE용 토큰 재발급 실패', e);
-    throw e;
+    window.location.reload(); 
   }
 };

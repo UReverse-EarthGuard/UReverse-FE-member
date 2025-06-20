@@ -10,14 +10,13 @@ import { setupSSE } from '../../api/setupSSE';
 
 export default function NotificationIcon() {
   const [unreadCount, setUnreadCount] = useState(0);
-  const { accessToken } = useRecoilValue(authState);
   const auth = useRecoilValue(authState);
   const setAuth = useSetRecoilState(authState);
   const setUser = useSetRecoilState(userState);
 
   const accessTokenRef = useRef(auth.accessToken); 
 
- useEffect(() => {
+  useEffect(() => {
     accessTokenRef.current = auth.accessToken;
   }, [auth.accessToken]);
 
@@ -36,11 +35,11 @@ export default function NotificationIcon() {
     let reconnectTimer;
 
     const handleConnect = async () => {
-       const token = accessTokenRef.current;
-      const userId = JSON.parse(atob(accessToken.split('.')[1])).sub;
+      const token = accessTokenRef.current;
+      const userId = JSON.parse(atob(token.split('.')[1])).sub;
 
       eventSource = connectSSE(
-        accessToken,
+        token,
         userId,
         fetchUnreadCount,
         (readIds) => {
