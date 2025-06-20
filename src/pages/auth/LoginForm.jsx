@@ -33,8 +33,10 @@ export default function LoginForm() {
     return (
         <div className={styles.wrapper}>
             <div className={styles.loginBox}>
-                <h1 className={styles.brand}>U:REVERSE</h1>
-                <p className={styles.sub}>당신의 옷, 다시 가치 있게</p>
+                <div onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>
+                    <h1 className={styles.brand}>U:REVERSE</h1>
+                    <p className={styles.sub}>당신의 옷, 다시 가치 있게</p>
+                </div>
 
                 <div className={styles.form}>
                     <LoginInput
