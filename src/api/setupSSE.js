@@ -1,10 +1,14 @@
-import api from '../api/axiosInstance';
-import { authState } from '../atoms/authState';
-import { userState } from '../atoms/userState';
+import axios from 'axios';
 
 export const setupSSE = async (setAuth, setUser) => {
+  
+  const refreshAxios = axios.create({
+    baseURL: process.env.REACT_APP_BASE_URL + '/api/v1',
+    withCredentials: true,
+  });
+
   try {
-    const res = await api.get('/auth/refresh'); // accessToken 재발급 유도
+    const res = await refreshAxios.get('/auth/refresh'); // accessToken 재발급 유도
 
     const { accessToken, role } = res.data.response;
 

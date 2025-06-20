@@ -6,7 +6,9 @@ export const connectSSE = (accessToken, userId, onMessage, onReadUpdate) => {
         console.log('✅ SSE 연결됨');
     });
 
-    eventSource.addEventListener('notification', onMessage);
+    eventSource.addEventListener('notification', () => {
+        onMessage(); // fetchUnreadCount 실행
+    });
 
     eventSource.addEventListener('read-update', (event) => {
         const readIds = JSON.parse(event.data); // List<Long> 형태

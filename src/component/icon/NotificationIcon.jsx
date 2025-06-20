@@ -33,6 +33,7 @@ export default function NotificationIcon() {
 
     let eventSource;
     let reconnectTimer;
+    let reconnectAttempted = false;
 
     const handleConnect = async () => {
       const token = accessTokenRef.current;
@@ -49,11 +50,15 @@ export default function NotificationIcon() {
 
       eventSource.onerror = async () => {
         eventSource.close();
-        try {
-          await setupSSE(setAuth, setUser);
+        if (!reconnectAttempted) {
+          reconnectAttempted = true;
           reconnectTimer = setTimeout(() => handleConnect(), 1000);
-        } catch (e) {
-          console.error('SSE 재연결 실패:', e);
+          return;
+        }
+        const success = await setupSSE(setAuth, setUser);
+        if (success) {
+          reconnectAttempted = false;
+          reconnectTimer = setTimeout(() => handleConnect(), 1000);
         }
       };
     };
