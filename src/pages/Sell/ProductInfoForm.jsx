@@ -10,6 +10,7 @@ import { sellFormState } from "../../atoms/sellFormState";
 import { useNavigate } from "react-router-dom";
 import ProductInfo from "../../component/sell/product/ProductInfo";
 import ProductPicture from "../../component/sell/product/ProductPicture";
+import { formatNumberWithComma } from '../../util/FormatNumberWithComma';
 
 export default function ProductInfoForm(){
     const navigate = useNavigate();
@@ -112,7 +113,11 @@ export default function ProductInfoForm(){
                         disabled={pictureList.length >= 3}
                     />
                     <HoverEventButton
-                        text="25,000p 보상받기"
+                        text={
+                            category && category.point
+                                ? `${formatNumberWithComma(category.point)}p 보상받기`
+                                : '보상받기'
+                        }
                         width="w-full"
                         height="h-12"
                         color="green"

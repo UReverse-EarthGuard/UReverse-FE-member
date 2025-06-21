@@ -57,6 +57,7 @@ export default function BrandAndCategorySelect({brand, category, onBrandClick, o
                 height="h-12"
                 color={brand && category ? "black" : "blocked"}
                 onClick={onClose}
+                disabled={!(brand && category)} // ✅ 둘 다 없으면 비활성화
                 />
             </div>
         </div>
