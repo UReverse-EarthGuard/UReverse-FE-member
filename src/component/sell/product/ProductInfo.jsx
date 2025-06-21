@@ -8,6 +8,7 @@ import CategorySelect from './CategorySelect';
 
 import { getBrandList } from '../../../api/brand';
 import { getCategoryList } from '../../../api/category';
+import { formatNumberWithComma } from '../../../util/FormatNumberWithComma';
 
 export default function ProductInfo({ brand, setBrand, category, setCategory }){
     const isEmpty = !brand || Object.keys(brand).length === 0;
@@ -124,7 +125,7 @@ export default function ProductInfo({ brand, setBrand, category, setCategory }){
                         <div className={styles.categoryName}>{category.mainCategoryName} / {category.subCategoryName}</div>
                     </div>
                     <div className={styles.pointInfo}>
-                        <span className={styles.pointInfoText}>예상 H.Point : </span><span className={styles.pointScoreText}>{point}P</span>
+                        <span className={styles.pointInfoText}>예상 H.Point : </span><span className={styles.pointScoreText}>{ formatNumberWithComma(category.point)}P</span>
                     </div>
                 </div>
             )}
