@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
         - name: ureverse-fe
-          image: imyxxnsj/ureverse-fe:latest
+          image: imyoonsj/ureverse-fe-member:latest
           ports:
             - containerPort: 80
